@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obi Hub</title>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111; /* Darker background color */
+            color: #ddd;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Header styles */
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed; /* Make the header sticky */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            animation: slideDown 1s ease;
+        }
+
+        header h1 {
+            font-size: 48px; /* Increased font size */
+            margin-bottom: 20px; /* Increased margin */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Main content styles */
+        .container {
+            max-width: 1200px;
+            margin: 180px auto 20px; /* Adjusted margin */
+            padding: 20px;
+            animation: slideInLeft 1s ease;
+        }
+
+        .download-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .download-option {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            margin-bottom: 40px; /* Increased margin */
+            border-radius: 20px; /* Increased border radius */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* Increased box shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 30%;
+            min-width: 300px; /* Increased min width */
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: slideInRight 1s ease;
+        }
+
+        .download-option:hover {
+            transform: translateY(-10px); /* Adjusted translateY */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6); /* Adjusted box shadow */
+        }
+
+        .download-option h2 {
+            font-size: 32px; /* Increased font size */
+            margin-bottom: 30px; /* Increased margin */
+            transition: color 0.3s ease;
+        }
+
+        .download-option p {
+            font-size: 20px; /* Increased font size */
+            margin-bottom: 30px; /* Increased margin */
+            color: #ccc;
+        }
+
+        .download-button {
+            background-color: #007bff; /* Blue color */
+            color: white;
+            border: none;
+            padding: 15px 30px; /* Adjusted padding */
+            border-radius: 20px; /* Increased border radius */
+            font-size: 24px; /* Increased font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: block;
+            margin: 20px auto; /* Adjusted margin */
+            width: fit-content;
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: scale(1.05); /* Increased scale on hover */
+        }
+
+        /* Sign IPA button */
+        .sign-ipa-button {
+            background-color: #333; /* Dark gray */
+            color: white;
+            border: none;
+            padding: 15px 40px; /* Adjusted padding */
+            border-radius: 20px; /* Increased border radius */
+            font-size: 24px; /* Increased font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 3px; /* Adjusted margin */
+        }
+
+        .sign-ipa-button:hover {
+            background-color: #222; /* Darker gray on hover */
+        }
+
+        /* Search bar styles */
+        .search-bar {
+            text-align: center;
+            margin-bottom: 60px; /* Increased margin */
+            animation: fadeIn 1s ease; /* Fade-in animation */
+        }
+
+        .search-input {
+            padding: 20px;
+            font-size: 20px; /* Increased font size */
+            border: 3px solid rgba(255, 255, 255, 0.4); /* Increased border width */
+            border-radius: 30px; /* Increased border radius */
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ddd;
+            width: 70%;
+            max-width: 600px; /* Increased max width */
+            transition: border-color 0.3s ease;
+            display: block;
+            margin: 0 auto 40px; /* Adjusted margin */
+            animation: slideInUp 1s ease; /* Slide-in animation */
+        }
+
+        .search-input::placeholder {
+            color: #ccc;
+        }
+
+        .search-input:focus {
+            border-color: rgba(255, 255, 255, 0.7);
+            outline: none;
+        }
+
+        .search-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 30px; /* Increased border radius */
+            font-size: 20px; /* Increased font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            margin: 0 auto;
+            width: fit-content;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease; /* Fade-in animation */
+        }
+
+        .search-button:hover {
+            background-color: #555;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            z-index: 1000;
+            animation: slideUp 1s ease;
+        }
+
+        /* No results styles */
+        #noResults {
+            text-align: center;
+            display: none;
+            margin-top: 50px;
+            animation: fadeIn 1s ease;
+        }
+
+        #noResults p {
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #ccc;
+        }
+
+        #noResults button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 20px; /* Increased border radius */
+            font-size: 20px; /* Increased font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: auto;
+        }
+
+        #noResults button:hover {
+            background-color: #555;
+        }
+
+        /* Keyframe animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(50px);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Additional keyframe animations */
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes scaleOut {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header id="navbar">
+        <h1>Obi Hub</h1>
+    </header>
+    <div class="container">
+        <!-- Search bar -->
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Search..." id="searchInput">
+            <button class="search-button" onclick="searchDownloads()">Search</button>
+        </div>
+
+        <!-- Download options -->
+        <div class="download-options">
+            <!-- Existing download options -->
+            <div class="download-option" id="codex" data-tags="Roblox">
+                <h2>Codex</h2>
+                <p>Download the Codex iOS IPA file.</p>
+                <a href="#" class="download-button" onclick="openModal('https://www.mediafire.com/file/3mbp8j9ozhx0pmm/CodexIOS.ipa/file')">Download Now</a>
+                <button class="sign-ipa-button" onclick="signIPA()">Sign IPA</button>
+            </div>
+            <div class="download-option" id="arceusX" data-tags="Roblox">
+                <h2>Arceus X</h2>
+                <p>Download the Arceus X iOS IPA file.</p>
+                <a href="#" class="download-button" onclick="openModal('https://www.mediafire.com/file/if2bc4qgrt5brqk/ArceusX1.ipa/file')">Download Now</a>
+                <button class="sign-ipa-button" onclick="signIPA()">Sign IPA</button>
+            </div>
+            <div class="download-option" id="scarlet" data-tags="IPA Signers">
+                <h2>Scarlet</h2>
+                <p>Download the Scarlet IPA Signer file.</p>
+                <a href="#" class="download-button" onclick="openModal('https://vvv.eco/r/nPhZGomC')">Download Now</a>
+                <button class="sign-ipa-button" onclick="signIPA()">Sign IPA</button>
+            </div>
+            <div class="download-option" id="esign" data-tags="IPA Signers">
+                <h2>Esign</h2>
+                <p>Download the Esign IPA Signer file.</p>
+                <a href="#" class="download-button" onclick="openModal('https://www.mediafire.com/file/a4ad1suk8jyyvfn/Esign.ipa/file')">Download Now</a>
+                <button class="sign-ipa-button" onclick="signIPA()">Sign IPA</button>
+            </div>
+            <div class="download-option" id="gbox" data-tags="IPA Signers">
+                <h2>Gbox</h2>
+                <p>Download the Gbox IPA file.</p>
+                <a href="#" class="download-button" onclick="openModal('https://www.mediafire.com/file/maoqdvvqxoz1v4b/GBTSInstaller_v1.1.ipa/file')">Download Now</a>
+                <button class="sign-ipa-button" onclick="signIPA()">Sign IPA</button>
+            </div>
+            <div class="download-option" id="ispoofer" data-tags="Pokemon">
+                <h2>iSpoofer</h2>
+                <p>Download the iSpoofer IPA file.</p>
+                <a href="#" class="download-button" onclick="openModal('https://www.mediafire.com/file/bmdwvvn9pl54yee/iSpooferX.ipa/file')">Download Now</a>
+                <button class="sign-ipa-button" onclick="signIPA()">Sign IPA</button>
+            </div>
+            <div class="download-option" id="minecraft" data-tags="Minecraft">
+                <h2>Minecraft</h2>
+                <p>Download the Minecraft IPA file.</p>
+                <a href="#" class="download-button" onclick="openModal('https://www.mediafire.com/file/hzyzf5eklypiecv/Minecraft.ipa/file')">Download Now</a>
+                <button class="sign-ipa-button" onclick="signIPA()">Sign IPA</button>
+            </div>
+            <div class="download-option" id="xKamoHacks" data-tags="X Twitter">
+                <h2>X - KamoHacks</h2>
+                <p>Download the X - KamoHacks IPA file.</p>
+                <a href="#" class="download-button" onclick="openModal('https://www.mediafire.com/file/c4ad7tdgdn3m34m/X_-_KamoHacks_%255B10.31%255D.ipa/file')">Download Now</a>
+                <button class="sign-ipa-button" onclick="signIPA()">Sign IPA</button>
+            </div>
+
+            <!-- Add more download options here -->
+            <!-- Example:
+            <div class="download-option" id="yourID" data-tags="Your Tags">
+                <h2>Your App Name</h2>
+                <p>Download your app description.</p>
+                <a href="#" class="download-button" onclick="openModal('your_download_link')">Download Now</a>
+                <button class="sign-ipa-button" onclick="signIPA()">Sign IPA</button>
+            </div>
+            -->
+        </div>
+
+        <!-- No results message -->
+        <div id="noResults">
+            <p>No results found.</p>
+            <button onclick="clearSearch()">Clear Search</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Obi Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Function to open modal
+        function openModal(url) {
+            // This is just a placeholder function, replace it with your modal logic
+            console.log("Opening modal for URL:", url);
+        }
+
+        // Function to sign IPA
+        function signIPA() {
+            // This is just a placeholder function, replace it with your sign IPA logic
+            console.log("Signing IPA...");
+        }
+
+        // Function to search downloads
+        function searchDownloads() {
+            var input, filter, options, option, tags, i, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            options = document.getElementsByClassName('download-option');
+            var noResults = document.getElementById('noResults');
+            var resultsFound = false;
+
+            // Loop through all download options and hide those that don't match the search query
+            for (i = 0; i < options.length; i++) {
+                option = options[i];
+                tags = option.getAttribute('data-tags').toUpperCase();
+                txtValue = option.textContent || option.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1 || tags.indexOf(filter) > -1) {
+                    option.style.display = "";
+                    resultsFound = true;
+                } else {
+                    option.style.display = "none";
+                }
+            }
+
+            // Display no results message if no matching downloads found
+            if (!resultsFound) {
+                noResults.style.display = "block";
+            } else {
+                noResults.style.display = "none";
+            }
+        }
+
+        // Function to clear search and show all downloads
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            var options = document.getElementsByClassName('download-option');
+            var noResults = document.getElementById('noResults');
+
+            // Show all download options
+            for (var i = 0; i < options.length; i++) {
+                options[i].style.display = "";
+            }
+
+            // Hide no results message
+            noResults.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
